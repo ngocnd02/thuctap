@@ -1,7 +1,7 @@
 # DNS root server
 Quản lý Hệ thống Tên Miền (DNS) được tổ chức theo một cấu trúc phân cấp sử dụng các khu vực quản lý khác nhau hoặc "vùng", với vùng gốc ở đỉnh cấu trúc đó. Các máy chủ gốc là máy chủ DNS hoạt động trong vùng gốc. Những máy chủ này có thể trực tiếp trả lời các truy vấn cho các bản ghi được lưu trữ hoặc được lưu trữ trong vùng gốc, và cũng có thể chuyển hướng các yêu cầu khác đến máy chủ Miền Cấp Cao (TLD) thích hợp. Các máy chủ TLD là nhóm máy chủ DNS ở một bước dưới máy chủ gốc trong cấu trúc phân cấp DNS, và chúng là một phần quan trọng của quá trình giải quyết các truy vấn DNS.
 
-LINK
+![Imgur](https://i.imgur.com/Kpegvic.png)
 
 Trong một truy vấn DNS không được lưu trữ, mỗi khi người dùng nhập địa chỉ web vào trình duyệt của họ, hành động này kích hoạt một cuộc tìm kiếm DNS, và tất cả các cuộc tìm kiếm DNS bắt đầu từ vùng gốc. Khi cuộc tìm kiếm đến vùng gốc, cuộc tìm kiếm sẽ di chuyển xuống theo cấu trúc phân cấp của hệ thống DNS, đầu tiên đến các máy chủ Tên Miền Cấp Cao (TLD), sau đó là các máy chủ cho các miền cụ thể (và có thể là các miền con) cho đến khi nó cuối cùng đến máy chủ tên quyền của miền đúng, chứa địa chỉ IP số của trang web được tìm kiếm. Địa chỉ IP này sau đó được trả lại cho máy khách. Thú vị là, mặc dù có nhiều bước cần thiết, quá trình này có thể diễn ra rất nhanh chóng.
 
