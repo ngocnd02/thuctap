@@ -16,7 +16,7 @@
 - Bạn có thể coi một tập hợp các bản ghi DNS giống như danh sách doanh nghiệp trên Yelp. Danh sách đó sẽ cung cấp cho bạn nhiều thông tin hữu ích về doanh nghiệp như địa điểm, giờ làm việc, dịch vụ được cung cấp, v.v. Tất cả các tên miền đều phải có ít nhất một vài bản ghi DNS cần thiết để người dùng có thể truy cập trang web của họ bằng cách sử dụng một tên miền và có một số bản ghi tùy chọn phục vụ các mục đích bổ sung.
 
 ## Các loại bản ghi DNS phổ biến:
-- **Bản ghi** - Bản ghi chứa địa chỉ IP của miền.
+- **Bản ghi A** - Bản ghi chứa địa chỉ IP của miền.
 
 - **Bản ghi AAAA** - Bản ghi chứa địa chỉ IPv6 cho một miền (trái ngược với bản ghi A liệt kê địa chỉ IPv4).
 
@@ -58,14 +58,20 @@
 
 | blog.example.com | record type | value: | TTL |
 |-------------|-------------|--------|-----|
-| @ | CNAME | is an alias of example.com | 32600 |
+| blog.example.com | CNAME | is an alias of example.com | 32600 |
 
 Trong ví dụ này, bạn có thể thấy rằng blog.example.com trỏ đến example.com.
 
 ### Bản ghi CNAME có thể trỏ tới bản ghi CNAME khác không?
 - Việc trỏ bản ghi CNAME vào bản ghi CNAME khác là không hiệu quả vì nó yêu cầu nhiều lần tra cứu DNS trước khi có thể tải miền — điều này làm chậm trải nghiệm người dùng — nhưng điều đó là có thể. Ví dụ: blog.example.com có thể có bản ghi CNAME trỏ đến bản ghi CNAME của www.example.com, sau đó bản ghi này trỏ tới bản ghi A của example.com.
 
-![Imgur](https://i.imgur.com/8qsBpIB.png)
+| blog.example.com | record type | value: | TTL |
+|-------------|-------------|--------|-----|
+| blog.example.com | CNAME | is an alias of example.com | 32600 |
+
+| www.example.com | record type | value: | TTL |
+|-------------|-------------|--------|-----|
+| www.example.com | CNAME | is an alias of example.com | 32600 |
 
 - Cấu hình này bổ sung thêm một bước vào quá trình tra cứu DNS và nên tránh nếu có thể. Thay vào đó, bản ghi CNAME cho cả blog.example.com và www.example.com phải trỏ trực tiếp đến example.com.
 
