@@ -29,8 +29,11 @@ systemctl start nfs-idmap
 ```
 Trong đó: 
 	- **rpcbind**: Là một dịch vụ cung cấp thông tin cấu hình và kết nối cho các dịch vụ sử dụng RPC (Remote Procedure Call).
+
 	- **nfs-server**: Dịch vụ NFS chính, cung cấp khả năng chia sẻ tệp tin và thư mục qua mạng.
+
 	- **nfs-lock**: Dịch vụ quản lý khóa cho NFS, đảm bảo đồng bộ hóa truy cập tệp tin giữa các máy chủ và người dùng.
+
 	- **nfs-idmap**: Dịch vụ quản lý ánh xạ ID giữa các hệ thống, giúp giải quyết vấn đề đồng bộ hóa quản lý người dùng và nhóm người dùng trên các máy chủ.
 
 - Bây giờ, chúng ta sẽ chia sẻ thư mục NFS qua mạng:
@@ -42,10 +45,15 @@ Trong đó:
 
 Trong đó: 
 	- **/var/nfsshare**: Đường dẫn đến thư mục hoặc tệp tin mà bạn muốn chia sẻ qua NFS.
+
 	- **192.168.249.135**: Địa chỉ IP của máy client được phép truy cập dịch vụ NFS.
+
 	- **rw**: Cho phép quyền đọc và ghi (read-write).
+
 	- **sync**: Đảm bảo dữ liệu được đồng bộ hóa trước khi phản hồi ghi được trả về.
+
 	- **no_root_squash**: Cho phép quyền root trên client thực hiện các thao tác như root trên máy chủ (không squash).
+
 	- **no_all_squash**: Cho phép tất cả người dùng trên client giữ nguyên quyền truy cập của họ mà không bị squash (giảm quyền).
 
 **NOTE**: 192.168.249.135 là địa IP của máy khách (client). Nếu bạn muốn cho phép bất kỳ máy khách nào khác truy cập, bạn cần thêm địa chỉ IP của chúng; nếu không, bạn có thể thêm "*" thay vì địa chỉ IP để cho phép truy cập từ mọi địa chỉ IP.
@@ -98,7 +106,7 @@ mount -t nfs 192.168.249.134:/home /mnt/nfs/home/
 - Nó sẽ mount /home của NFS server. Kế tiếp, chúng ta sẽ mount thư mục /var/nfsshare
 ```mount -t nfs 192.168.249.134:/var/nfsshare /mnt/nfs/var/nfsshare/```
 
-- Sử dụng lệnh *df-hT** để kiểm tra xem đã mount thành công hay chưa. 
+- Sử dụng lệnh **df-hT** để kiểm tra xem đã mount thành công hay chưa. 
 - Lúc này 2 máy đã có thể chia sẻ tệp tin hoặc thư mục cho nhau. 
 
 **NOTE**: Lệnh mount trong Centos sẽ bị mất khi chúng ta reboot lại hệ thống, nên chúng ta phải cấu hình sao cho không bị mất ngay cả khi reboot. 
@@ -109,7 +117,11 @@ mount -t nfs 192.168.249.134:/home /mnt/nfs/home/
 ```
 Trong đó: 
 	- 192.168.249.134:/var/nfsshare: Là địa chỉ IP của máy chủ NFS và đường dẫn đến thư mục chia sẻ trên máy chủ.
+
 	- /mnt/nfs/var/nfsshare/: Là đường dẫn đến thư mục trên máy khách để gắn kết thư mục NFS.
+
 	- nfs: Là loại hệ thống tệp tin.
+
 	- defaults: Là tùy chọn mặc định cho mount point.
+
 	- 0 0: Là các tham số để xác định thứ tự kiểm tra và sao lưu. (Thường để mặc định).

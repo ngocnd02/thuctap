@@ -70,8 +70,8 @@ userlist_deny=NO
 **1. Tạo user local**
 - Tạo 1 local user là: ngocnd
 
-# adduser ngocnd
-# passwd ngocnd
+#adduser ngocnd
+#passwd ngocnd
 Sau khi thêm xong thì thư mục mặc định của tài khoản này sẽ ở thư mục /home/ngocnd/
 
 - Tạo một thư mục cho người dùng về thêm quyền: 
