@@ -93,6 +93,20 @@ chown –R testuser: /home/ngocnd/ftp
 ```systemctl restart vsftpd```
 
 3. Truy cập FTP server
-Ở đây, ta sử dụng FileZilla để truy cập tới FTP server. Ta nhập địa chỉ IP của Server, username, password
+- Ở đây, ta sử dụng FileZilla để truy cập tới FTP server. Ta nhập địa chỉ IP của Server, username, password
 
 ![Imgur](https://i.imgur.com/zLfTF1b.png)
+
+- Ở trong FTP server ta tạo một file là **hi.txt** và thư mục **testfile**, bây giờ ta mở thư mục ở máy client được chia sẻ và thấy file và thư mục đã tạo ra  
+
+![Imgur](https://i.imgur.com/XcIuLuJ.png)
+
+- Ở phía client ta sẽ tải lên thư mục **upload** một file text là **intro** để xem thư mục bên phía server có nhận được không. 
+
+![Imgur](https://i.imgur.com/0cDar9g.png)
+
+- Ở phía server, di chuyển vào /home/ngocnd/ftp/upload/ và thấy file intro đã có. 
+
+![Imgur](https://i.imgur.com/pSA2EDs.png)
+
+ 
