@@ -36,13 +36,13 @@
 
 ```mkdir /nfs01```
 
-```mkdir /nfs01```
+```mkdir /nfs02```
 
 - Cuối cùng tiến hành mount 2 phân vùng vào 2 thư mục vừa tạo. 
 
 ```mount /dev/myvg/mylv1 /nfs01```
 
-```mount /dev/myvg/mylv2/nfs01```
+```mount /dev/myvg/mylv2/nfs02```
 
 Dùng lệnh df-h để kiểm tra: 
 
@@ -78,7 +78,7 @@ Trong đó:
 
 ```mkdir nfs01.txt```
 
-```mkdir nfs02.txt``
+```mkdir nfs02.txt```
 
 ### Trên máy client 192.168.249.161
 - Tạo một thư mục để xem các tệp tin được chia sẻ
