@@ -28,3 +28,8 @@ Nếu bạn thay đổi mật khẩu bảng điều khiển của mình, mật k
 
 ![Imgur](https://i.imgur.com/MzddiKY.png)
 
+
+### Sử dụng FileZilla để kết nối đến FTP Server
+- Nhập địa chỉ ip máy chủ và thông tin tài khoản mà tạo ở phía trên để kết nối vào FTP server
+
+![Imgur](https://i.imgur.com/K26qsxj.png)
