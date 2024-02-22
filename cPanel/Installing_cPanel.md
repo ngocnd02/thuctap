@@ -1,7 +1,7 @@
-## Cài đặt cPanel trên centOS 7
+## Cài đặt cPanel trên AlmaLinux
 
 ### Yêu cầu cài đặt
-- Operating systems: CentOS 7
+- Operating systems: Almalinux 8.9
 
 - RAM: Minimum 1GB (recommend 2GB RAM)
 
