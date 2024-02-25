@@ -71,3 +71,35 @@ Chạy lệnh cài đặt
 ```
 cd /home && curl -o latest -L https://securedownloads.cpanel.net/latest && sh latest
 ```
+
+### Thiết lập cPanel
+- Sau khi cài đặt xong cPanel ta truy cập vào trình duyệt và truy cập vào máy chủ với cổng 2078 theo cú pháp: **https://diachiip:2078. 
+
+- Trang chủ quản trị cPanel sẽ xuất hiện, lúc này bạn cần đăng nhập tài khoản của máy chủ để truy cập được cPanel
+
+![Imgur](https://i.imgur.com/q9jSp6K.png)
+
+- Chọn **Login to cPanel store**
+
+![Imgur](https://i.imgur.com/Ex8Ku4K.png)
+
+- Đăng nhập tài khoản email bạn đã đăng kí cho tài khoản trial
+
+![Imgur](https://i.imgur.com/nmUVuj5.png)
+
+
+![Imgur](https://i.imgur.com/WXoAVXn.png)
+
+
+- Thiết lập cPanel
+
+![Imgur](https://i.imgur.com/Qsy04aq.png)
+
+
+![Imgur](https://i.imgur.com/XgJ7Ywb.png)
+
+
+- Và cuối cùng đây là giao diện để quản lý trang web của cPanel
+
+![Imgur](https://i.imgur.com/BTQBKls.png)
+
