@@ -73,7 +73,7 @@ cd /home && curl -o latest -L https://securedownloads.cpanel.net/latest && sh la
 ```
 
 ### Thiết lập cPanel
-- Sau khi cài đặt xong cPanel ta truy cập vào trình duyệt và truy cập vào máy chủ với cổng 2078 theo cú pháp: **https://diachiip:2078. 
+- Sau khi cài đặt xong cPanel ta truy cập vào trình duyệt và truy cập vào máy chủ với cổng 2087 theo cú pháp: **https://diachiip:2087. 
 
 - Trang chủ quản trị cPanel sẽ xuất hiện, lúc này bạn cần đăng nhập tài khoản của máy chủ để truy cập được cPanel
 
