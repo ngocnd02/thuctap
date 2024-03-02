@@ -110,3 +110,7 @@ Openlitespeed để công mặc định là 8080 chúng ta cần phải sửa đ
 
 ![Imgur](https://i.imgur.com/qJ0udoA.png)
 
+- Sau đó chúng ta vào trình duyệt và nhập địa chỉ ip thấy hiện ra như dưới đây là thành công. 
+
+![Imgur](https://i.imgur.com/TJEeJ8P.png)
+
