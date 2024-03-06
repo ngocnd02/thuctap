@@ -1,3 +1,12 @@
+## Zimbra là gì?
+- Zimbra là công cụ giúp doanh nghiệp xây dựng môi trường làm việc đội nhóm, quản trị và chia sẻ dữ liệu theo hệ thống hiệu quả. Nó có tên gọi đầy đủ là Zimbra Collaboration Suite. Đây chắc hẳn là giải pháp tối ưu quản lý công việc cho doanh nghiệp.
+
+- Một hệ thống hoàn chỉnh của Zimbra Mail sẽ bao gồm máy khách website và máy chủ Email. Cả hai dạng máy này sẽ tạo thành nguồn mở và vận hành trên website. Người dùng sẽ mất phí khá thấp và được chắc chắn về tính bảo mật cũng như sự ổn định của từng tính năng. 
+
+- Công cụ này không đơn thuần hoạt động riêng lẻ ở lĩnh vực email mà nó còn được nhận định là giải pháp tuyệt vời cho việc triển khai môi trường doanh nghiệp tiêu chuẩn hóa với các tiện ích khác, gồm: Thư điện tử, tài liệu, danh bạ, giao tiếp,…
+
+- Zimbra cho phép truy cập mà không cần kết nối internet và dữ liệu sẽ được động bồ khi được liên kết mạng. Cho phép người dùng nhận/gửi thư qua giao thức IMAP/POP3. Bởi tính thuận tiện và tối ưu cho mọi môi trường, phần mềm này đang có trên 500 triệu người dùng đến từ 130 quốc gia.
+
 ## Các tính năng nổi bật của Zimbra mail
 Có thể nói, tính năng email là điều tất yếu đối với dạng phần mềm này. Bên cạnh đó, người dùng còn được sử dụng hàng loạt các tính năng khác tiện lợi không kém, gồm:
 
