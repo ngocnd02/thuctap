@@ -1,56 +1,108 @@
 # Thực hiện Backup và Restore trong Zimbra
 
 ## 1.Backup
-Sao lưu hộp thư trên máy chủ địa chỉ thư điện tử thường xuyên có thể giúp bạn khôi phục dịch vụ email nhanh chóng nếu xảy ra một sự cố đột ngột. Bạn nên bao gồm việc sao lưu dữ liệu máy chủ Zimbra Collaboration trong quy trình sao lưu toàn hệ thống của bạn.
 
-Trước khi sao lưu dữ liệu Zimbra Collaboration, tất cả các máy chủ phải được dừng. Để dừng máy chủ, sử dụng lệnh dòng lệnh CLI, `zmcontrol stop`. Sau khi sao lưu hoàn tất, để khởi động lại máy chủ, sử dụng `zmcontrol start`.
-
-```
-su zimbra
-zmcontrol stop
-```
-
-Tạo bản sao lưu: 
-- Đảm bảo rằng vị trí sao lưu có đủ dung lượng để chứa bản sao
-- Tất cả thành phần mà Zimbra cần đều nằm trong thư mục chính, nên việc backup trong Zimbra được thực hiện bằng cách copy toàn bộ thư mục này sang 1 vị trí khác
+- Trước khi backup dữ liệu trong zimbra ta sẽ liệt kê tất cả các tài khoản trong zimbra đang tồn tại 
 
 ```
-cp -rp /opt/zimbra /mnt/zimbra_backup.$(date"7/3/2024")
+sudo -u zimbra /opt/zimbra/bin/zmprov -l gaa 
 ```
 
-## Restore
+![Imgur](https://i.imgur.com/8tqtzFz.png)
 
-- Để khôi phục dữ liệu Zimbra Collaboration, Máy chủ phải được dừng trước khi khôi phục dữ liệu.
 
-```
-su zimbra
-zmcontrol restore
-```
+- Tiếp đó ta tiến hành vào mailbox của một người dùng bất kì, sẽ thấy các email đang tồn tại
 
-- Bạn có thể di chuyển thư mục zimbra cũ tại /opt đi chỗ khác để đảm bảo sự an toàn. 
+![Imgur](https://i.imgur.com/P2HjzjP.png)
 
-- Sau đó, chuyển bản backup zimbra vừa backup ở trên vào thư mục /opt và đặt tên là zimbra
+
+
+- Sau đó chúng ta tiến hành tạo file backup
 
 ```
-cp -rp /mnt/zimbra_backup/ /opt
-mv /opt/zimbra_backup /opt/zimbra
+vi /srv/backup-mailbox.sh
 ```
 
-- Cài đặt lại zimbra
+- Điền những nội dung sau đây vào file backup
+
+![Imgur](https://i.imgur.com/aDsUjHl.png)
+
+
+- Ta cấp quyền cho file backup
 
 ```
-cd zcs-9.0.0_GA_1.RHEL7_64.20200411070311.tgz
-./install.sh
-```
-
-- Khi có thông báo Do you wish to upgrade? [Y] thì nhập Y để đồng ý. Trình cài đặt sẽ xóa bỏ các gói hiện tại và cài đặt lại chúng, nó sẽ dừng dịch vụ Zimbra cũ và chạy với những file đã sao lưu
-
-- Đặt lại quyền
+chmod +x /srv/backup-mailbox.sh
 
 ```
-chown -R zimbra:zimbra /opt/zimbra/store
-chown -R zimbra:zimbra /opt/zimbra/index
-/opt/zimbra/libexec/zmfixperms
+
+- Sau đó chạy file để tạo backup
+
 ```
+sh /srv/backup-mailbox.sh
+```
+
+![Imgur](https://i.imgur.com/y48XJwJ.png)
+
+
+- Lúc này ta kiểm tra thư mục thì sẽ thấy dữ liệu của các tài khoản đã được backup
+
+![Imgur](https://i.imgur.com/iS1SN7P.png)
+
+- Ta tiến hành vào mailbox của một người dùng ở trên và xóa toàn bộ email đang tồn tại đi
+
+![Imgur](https://i.imgur.com/Aoi121i.png)
+
+
+## Backup
+
+- Ta tiến hành tạo file restore dữ liệu
+
+```
+vi /srv/restore-mailbox.sh
+```
+
+- Sau đó điền nội dung sau vào: 
+
+```
+#!/bin/bash
+
+BACKUPDIR="/srv/backup/080324";
+
+clear
+
+echo "Retrieve all zimbra user name..."
+
+USERS=`su - zimbra -c 'zmprov -l gaa | sort'`;
+
+for ACCOUNT in $USERS; do
+NAME=`echo $ACCOUNT`;
+echo "Restoring $NAME mailbox..."
+su - zimbra -c "zmmailbox -z -m $NAME postRestURL '//?fmt=tgz&resolve=skip' $BACKUPDIR/$NAME.tgz";
+done
+echo "All mailbox has been restored sucessfully"
+```
+
+
+![Imgur](https://i.imgur.com/6kJGwet.png)
+
+- Trong đó: /srv/backup/080324 đây là đường dẫn đến thư mục chứa các file backup
+
+- Sau đó cấp quyền cho file
+
+```
+chmod +x /srv/restore-mailbox.sh
+```
+
+- Chạy file để restore dữ liệu: 
+
+```
+sh /srv/restore-mailbox.sh
+```
+
+![Imgur](https://i.imgur.com/p3BL5QS.png)
+
+- Sau đó ta quay trở lại mailbox ở trên và đã thấy tất cả các email đã quay trở lại
+
+![Imgur](https://i.imgur.com/0m4MMGI.png)
 
 
