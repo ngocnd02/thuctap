@@ -482,35 +482,27 @@ pcs property set default-resource-stickiness="INFINITY"
 
 **Kiểm tra thiết lập cluster**
 
-```
-pcs property list
-```
+```pcs property list```
 
 ![Imgur](https://i.imgur.com/1tBzm4h.png)
 
 
 **Tạo resource IP VIP Cluster**
 
-```
-pcs resource create Virtual_IP ocf:heartbeat:IPaddr2 ip=192.168.249.175 cidr_netmask=24 op monitor interval=30s
-```
+```pcs resource create Virtual_IP ocf:heartbeat:IPaddr2 ip=192.168.249.175 cidr_netmask=24 op monitor interval=30s```
 
 - Khi được thực hiện, tài nguyên Virtual_IP sẽ được tạo trong cụm Pacemaker, cho phép nó quản lý địa chỉ IP 192.168.249.175 và kiểm tra trạng thái của nó theo chu kỳ 30 giây.
 
 
 **Tạo resource quản trị dịch vụ HAProxy*
 
-```
-pcs resource create Loadbalancer_HaProxy systemd:haproxy op monitor timeout="5s" interval="5s"
-```
+```pcs resource create Loadbalancer_HaProxy systemd:haproxy op monitor timeout="5s" interval="5s"```
 - Khi được thực hiện, tài nguyên Loadbalancer_HaProxy sẽ được tạo trong cụm Pacemaker, cho phép nó quản lý dịch vụ HAProxy dựa trên systemd và kiểm tra trạng thái của nó theo chu kỳ 5 giây.
 
 
 **Ràng buộc thứ tự khởi động dịch vụ: khởi động dịch vụ Virtual_IP sau đó khởi động dịch vụ Loadbalancer_HaProxy**
 
-```
-pcs constraint order start Virtual_IP then Loadbalancer_HaProxy kind=Optional
-```
+```pcs constraint order start Virtual_IP then Loadbalancer_HaProxy kind=Optional```
 
 **Ràng buộc resource Virtual_IP phải khởi động cùng node với resource Loadbalancer_HaProxy**
 
@@ -521,23 +513,21 @@ pcs constraint colocation add Virtual_IP Loadbalancer_HaProxy INFINITY
 
 **Kiểm tra trạng thái Cluster**
 
-```
-pcs status
-```
+```pcs status```
 
 ![Imgur](https://i.imgur.com/OCkcwGW.png)
 
 
 **Kiểm tra cấu hình Resource**
 
-```
-pcs resource show --full
-```
+```pcs resource show --full```
+
 
 ![Imgur](https://i.imgur.com/eVoUzpa.png)
 
 
 **Kiểm tra ràng buộc trên resource**
+
 
 ```
 pcs constraint
@@ -546,6 +536,7 @@ pcs constraint
 ### Phần 4: Kiểm tra
 **Kiểm tra trạng thái dịch vụ**
 - Truy cập <IP_VIP>:8080/stats (http://192.168.249.175:8080/stats)
+
 
 ![Imgur](https://i.imgur.com/vgHyPUZ.png)
 
