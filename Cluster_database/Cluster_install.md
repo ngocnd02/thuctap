@@ -165,6 +165,7 @@ wsrep_sst_method=rsync
 [mariadb]
 [mariadb-10.2]
 ' > /etc/my.cnf.d/server.cnf
+```
 
 
 **Lưu ý:**
@@ -215,7 +216,7 @@ wsrep_sst_method=rsync
 [mariadb]
 [mariadb-10.2]
 ' > /etc/my.cnf.d/server.cnf
-
+```
 
 ## Khởi động dịch vụ
 - Tại **node 1** khởi tạo Cluster
@@ -253,7 +254,9 @@ mysql -u root -e "SHOW STATUS LIKE 'wsrep_cluster_size
 
 
 # Triển khai Haproxy Pacemaker cho Cluster Galera 3 node trên CentOS 7
+
 ## Cài đặt Haproxy bản 1.8
+
 **Thực hiện trên tất cả các node**
 - Cài đặt wget và socat từ kho lưu trữ của CentOS. 
 
