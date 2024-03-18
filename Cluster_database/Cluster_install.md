@@ -252,7 +252,7 @@ mysql -u root -e "SHOW STATUS LIKE 'wsrep_cluster_size
 ![Imgur](https://i.imgur.com/IJ4GpuY.png)
 
 
-#Triển khai Haproxy Pacemaker cho Cluster Galera 3 node trên CentOS 7
+# Triển khai Haproxy Pacemaker cho Cluster Galera 3 node trên CentOS 7
 ## Cài đặt Haproxy bản 1.8
 **Thực hiện trên tất cả các node**
 - Cài đặt wget và socat từ kho lưu trữ của CentOS. 
@@ -362,10 +362,11 @@ systemctl disable haproxy
 
 ```
 mysql -u root -p
-``
-	- Sau đó, nhập mật khẩu cho tài khoản quản trị để đăng nhập.
+```
 
-Tạo người dùng và cấp quyền truy cập:
+- Sau đó, nhập mật khẩu cho tài khoản quản trị để đăng nhập.
+
+- Tạo người dùng và cấp quyền truy cập:
 
 ```
 CREATE USER 'haproxy'@'node1';
@@ -373,7 +374,7 @@ CREATE USER 'haproxy'@'node2';
 CREATE USER 'haproxy'@'%';
 ```
 
-Cấp quyền truy cập cho người dùng:
+- Cấp quyền truy cập cho người dùng:
 
 ```
 GRANT ALL PRIVILEGES ON *.* TO 'haproxy'@'node1';
@@ -382,6 +383,7 @@ GRANT ALL PRIVILEGES ON *.* TO 'haproxy'@'%';
 ```
 
 ## Triển khai Cluster Pacemaker
+
 ### Bước 1: Cài đặt pacemaker corosync
 **Lưu ý: Thực hiện trên tất cả các node**
 
