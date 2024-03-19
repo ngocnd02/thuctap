@@ -545,6 +545,25 @@ pcs constraint
 
 ![Imgur](https://i.imgur.com/vgHyPUZ.png)
 
+- Như vậy ta đã thấy cả node1 và node2 đều trong trạng thái active.
+
+**kết nối tới database MariaDB thông qua IP VIP
+
+![Imgur](https://i.imgur.com/nwELdJa.png)
+
+#### Kiểm tra tính sẵn sàng của hệ thống 
+- Trong hệ thống của ta bây giờ có 2 node đều trong trạng thái active
 
 
+![Imgur](https://i.imgur.com/YNEaq5g.png)
 
+- Với **Current DC** là tại node1, Virtual_IP và Loadbalancer_HaProxy đều tại node. Bây giờ ta thử tắt node1 đi
+
+- Truy cập vào node1 và tắt: ```init 0```
+
+
+- Sau đó ta tiến hành kiểm tra trạng thái Cluster, đã thấy node1 đã bị tắt. Dịch vụ Virtual_IP và Loadbalancer_HaProxy được tự động chuyển sang node2. Đồng thời cũng có thông báo về online là node2 và offline là node1. 
+
+![Imgur](https://i.imgur.com/avgjMEK.png)
+
+Tại thời điểm node1 bị tắt, Pacemaker Cluster sẽ tự đánh giá, di chuyển các dịch vụ Virtual_IP và Loadbalancer_HaProxy sang node đang sẵn sàng trong Cluster, duy trì dịch vụ luôn hoạt động dù cho 1 node trong cluster gặp sự cố. Đồng thời, Cluster Galera sẽ vẫn hoạt động bình thường dù 1 node trong cluster xảy ra sự cố.
