@@ -247,7 +247,7 @@ systemctl enable mariadb
 
 ## Kiểm tra tại node1
 ```
-mysql -u root -e "SHOW STATUS LIKE 'wsrep_cluster_size
+mysql -u root -e "SHOW STATUS LIKE 'wsrep_cluster_size'"
 ```
 
 ![Imgur](https://i.imgur.com/IJ4GpuY.png)

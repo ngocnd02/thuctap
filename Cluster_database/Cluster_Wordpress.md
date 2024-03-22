@@ -124,3 +124,33 @@ define( 'DB_HOST', '192.168.249.175' );
 
 - Như vậy ta đã triển khai thành công một trang wordpress cso cơ sở dữ liệu trỏ tới cụm cluster. 
 
+
+
+## Xử lý sự cố.
+
+Trong khi ta triển khai wordpress có thể xảy ra nhiều lỗi, và khi đó ta cần kiểm tra và xem xét lỗi từ đâu để tìm hướng giải quyết
+
+- Kiểm tra xem có thể ping tới VIP được không. 
+- Kiểm tra xem các node có thể ping tới nhau được không
+- Telnet đến port 3306 của VIP xem có được không
+- Đặc biệt là phần grant quyền cho các user. Cần cấp cho user quyền truy cập từ localhost và từ bất kì máy chủ nào. vd
+
+```
+create database wordpress;
+grant all privileges on wordpress.* to wp@'localhost' identified by 'Welcome123';
+grant all privileges on wordpress.* to wp@'%' identified by 'Welcome123';
+flush privileges;
+exit
+```
+
+- Nếu grant cho bất kì máy chủ nào mà vẫn chưa được thì ta cần kiểm tra xem user ta tạo cho database đã có quyền chưa. 
+
+```mysql -h 192.168.249.175 -u wp -p'Welcome123'``` 
+
+Nếu không vào truy cập được thì tức là user từ VIP này chưa có quyền ta cần grant quyền cho VIP này
+
+```
+grant all privileges on wordpress.* to 'wp'@'node1' by identified 'Welcome123';
+grant all privileges on wordpress.* to 'wp'@'node2' by identified 'welcome123';
+```
+
