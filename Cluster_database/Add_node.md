@@ -1,5 +1,7 @@
 # Cấu hình thêm một node vào trong Galera Cluster
 
+Lưu ý: trước khi ta thực hiện thêm 1 node mới, để đảm bảo sự cố ngoài ý muốn xảy ra ta nên backup cơ sở dữ liệu trước khi thực hiện join thêm 1 node để tránh mất dữ liệu. 
+
 ## Thiết lập ban đầu cho node mới muốn thêm vào
 Tại node mới muốn thêm vào (Ở đây ta muốn thêm vào node thứ 4)
 
@@ -369,4 +371,111 @@ logging {
 ![Imgur](https://i.imgur.com/25QC7ta.png)
 
 
-- Em vẫn đang tìm cách để fix lỗi này ạ. 
+## Khắc phục sự cố. 
+
+Sau khi thêm node mới, ta kiểm tra trạng thái của Mariadb ở các node thì thấy báo lỗi như sau:
+
+```sh
+[root@node2 ~]# systemctl status mariadb
+● mariadb.service - MariaDB 10.5.24 database server
+   Loaded: loaded (/usr/lib/systemd/system/mariadb.service; enabled; vendor preset: disabled)
+  Drop-In: /etc/systemd/system/mariadb.service.d
+           └─migrated-from-my.cnf-settings.conf
+   Active: failed (Result: exit-code) since Tue 2024-03-26 03:55:01 EDT; 5min ago
+     Docs: man:mariadbd(8)
+           https://mariadb.com/kb/en/library/systemd/
+  Process: 1308 ExecStart=/usr/sbin/mariadbd $MYSQLD_OPTS $_WSREP_NEW_CLUSTER $_WSREP_START_POSITION (code=exited, status=1/FAILURE)
+  Process: 976 ExecStartPre=/bin/sh -c [ ! -e /usr/bin/galera_recovery ] && VAR= ||   VAR=`cd /usr/bin/..; /usr/bin/galera_recovery`; [ $? -eq 0 ]   && systemctl set-environment _WSREP_START_POSITION=$VAR || exit 1 (code=exited, status=0/SUCCESS)
+  Process: 964 ExecStartPre=/bin/sh -c systemctl unset-environment _WSREP_START_POSITION (code=exited, status=0/SUCCESS)
+ Main PID: 1308 (code=exited, status=1/FAILURE)
+   Status: "MariaDB server is down"
+
+Mar 26 03:55:00 node2 mariadbd[1308]: at /home/buildbot/buildbot/build/gcomm/src/pc.cpp:connect():160
+Mar 26 03:55:00 node2 mariadbd[1308]: 2024-03-26  3:55:00 0 [ERROR] WSREP: /home/buildbot/buildbot/build/gcs/src/gcs_core.cpp:gcs_core_open():222:...timed out)
+Mar 26 03:55:01 node2 mariadbd[1308]: 2024-03-26  3:55:01 0 [ERROR] WSREP: /home/buildbot/buildbot/build/gcs/src/gcs.cpp:gcs_open():1675: Failed t...timed out)
+Mar 26 03:55:01 node2 mariadbd[1308]: 2024-03-26  3:55:01 0 [ERROR] WSREP: gcs connect failed: Connection timed out
+Mar 26 03:55:01 node2 mariadbd[1308]: 2024-03-26  3:55:01 0 [ERROR] WSREP: wsrep::connect(gcomm://192.168.249.170,192.168.249.171,192.168.249.165) failed: 7
+Mar 26 03:55:01 node2 mariadbd[1308]: 2024-03-26  3:55:01 0 [ERROR] Aborting
+Mar 26 03:55:01 node2 systemd[1]: mariadb.service: main process exited, code=exited, status=1/FAILURE
+Mar 26 03:55:01 node2 systemd[1]: Failed to start MariaDB 10.5.24 database server.
+Mar 26 03:55:01 node2 systemd[1]: Unit mariadb.service entered failed state.
+Mar 26 03:55:01 node2 systemd[1]: mariadb.service failed.
+Hint: Some lines were ellipsized, use -l to show in full.
+```
+
+- Khi bị báo lỗi như vậy thì việc khởi động, hay chạy lại mariadb là không thể. Do đó ta cần khởi tạo lại cụm cluster. Để làm điều đó, trước tiên ta cần thay đổi giá trị **seqno** trong file **grastate.dat**. Và node có giá trị **seqno** lớn nhất sẽ là node khởi tạo lại cluster. 
+
+```
+[root@node1 ~]# cat /var/lib/mysql/grastate.dat
+# GALERA saved state
+version: 2.1
+uuid:    f13047e6-e7f5-11ee-87a9-4e61fa2adef5
+seqno:   -1
+safe_to_bootstrap: 0
+```
+
+```
+[root@node2 ~]# cat /var/lib/mysql/grastate.dat
+# GALERA saved state
+version: 2.1
+uuid:    f13047e6-e7f5-11ee-87a9-4e61fa2adef5
+seqno:   -1
+safe_to_bootstrap: 0
+```
+
+```
+[root@node3 ~]# cat /var/lib/mysql/grastate.dat
+# GALERA saved state
+version: 2.1
+uuid:    f13047e6-e7f5-11ee-87a9-4e61fa2adef5
+seqno:   -1
+safe_to_bootstrap: 0
+```
+
+```
+[root@node4 ~]# cat /var/lib/mysql/grastate.dat
+# GALERA saved state
+version: 2.1
+uuid:    f13047e6-e7f5-11ee-87a9-4e61fa2adef5
+seqno:   -1
+safe_to_bootstrap: 0
+```
+
+
+
+Trong bài lab database chưa có sự đọc ghi dữ liệu nên seqno = -1 giống nhau ở các node.
+
+Để khởi tạo lại cluster, thay đổi giá trị safe_to_bootstrap bằng 1 và chạy câu lệnh galera_new_cluster. Sau khi chạy câu lệnh **galera_new_cluster** cluster sẽ khởi tạo trở lại.
+
+Thực hiện tại node1
+
+```sh
+vi /var/lib/mysql/grastate.dat
+```
+
+```
+# GALERA saved state
+version: 2.1
+uuid:    f13047e6-e7f5-11ee-87a9-4e61fa2adef5
+seqno:   -1
+safe_to_bootstrap: 1
+```
+
+Sau đó khởi động lại mariadb
+
+```
+systemctl start mariadb
+systemctl status mariadb
+```
+
+Khởi động lại dịch vụ mariadb ở các node còn lại
+
+- Lúc này thì cluster sẽ lại hoạt động bình thường. 
+
+
+![Imgur](https://i.imgur.com/zz6wjEc.png)
+
+
+
+![Imgur](https://i.imgur.com/GAUnMBV.png)
+
